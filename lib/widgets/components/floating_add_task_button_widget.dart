@@ -34,9 +34,12 @@ class FloatingAddTaskButtonWidget extends StatelessWidget {
         ),
       ),
       context: context,
-      builder: (ctx) => ChangeNotifierProvider.value(
-        value: provider,
-        child: _getBottomSheetComponent(context),
+      builder: (ctx) => Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(ctx).viewInsets.bottom),
+        child: ChangeNotifierProvider.value(
+          value: provider,
+          child: _getBottomSheetComponent(context),
+        ),
       ),
     );
   }
@@ -49,50 +52,44 @@ class FloatingAddTaskButtonWidget extends StatelessWidget {
       ),
     );
 
-    return StatefulBuilder(
-      builder: (_, setState) => Padding(
-        padding: MediaQuery.of(context).viewInsets,
-        child: Padding(
+    return SingleChildScrollView(
+      child: StatefulBuilder(
+        builder: (_, setState) => Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                      ),
-                      enabledBorder: border,
-                      errorBorder: border,
-                      disabledBorder: border,
-                      hintText: 'Input new Task here',
-                      fillColor: Theme.of(context).colorScheme.tertiary,
-                      filled: true,
-                    ),
-                    controller: _titleController,
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onTertiary,
+              TextFormField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.tertiary,
                     ),
                   ),
-                  if (subTasks.isNotEmpty)
-                    SizedBox(
-                      height: 100,
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.85,
-                        child: ListView(
-                          children: subTasks,
-                        ),
-                      ),
-                    )
-                ],
+                  enabledBorder: border,
+                  errorBorder: border,
+                  disabledBorder: border,
+                  hintText: 'Input new Task here',
+                  fillColor: Theme.of(context).colorScheme.tertiary,
+                  filled: true,
+                ),
+                controller: _titleController,
+                maxLines: 2,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onTertiary,
+                ),
               ),
+              if (subTasks.isNotEmpty)
+                SizedBox(
+                  height: 100,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.85,
+                    child: ListView(
+                      children: subTasks,
+                    ),
+                  ),
+                ),
               const SizedBox(height: 5),
               Row(
                 children: [
@@ -143,7 +140,7 @@ class FloatingAddTaskButtonWidget extends StatelessWidget {
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
